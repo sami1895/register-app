@@ -58,7 +58,6 @@ pipeline {
         stage('Build & push Dockerfile') {
             steps {
                 sh """
-		cd register-app/
                 ansible-playbook playbook.yml
                 """
             }

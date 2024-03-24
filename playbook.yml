@@ -1,14 +1,6 @@
 - name: "Build Image and run container with ansible playbook"
   hosts: localhost
   tasks:
-  - name: stop running container
-    command: docker stop app-java
-    ignore_errors: yes
-
-  - name: remove stopped container
-    command: docker rm app-java
-    ignore_errors: yes
-
   - name: remove used image
     # Make sure to change the image name with your personal dockerhub account and reposiroty   
     command: docker rmi img-java

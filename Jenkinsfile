@@ -65,7 +65,7 @@ pipeline {
 	stage("Trivy Scan") {
            steps {
                script {
-	            sh    'trivy --no-progress --exit-code 0 --severity MEDIUM,HIGH,CRITICAL imas10/application-java:latest'          
+	            sh     sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock imas10/trivy image imas10/application-java:latest --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table --timeout 15m')         
            }
        }    
     }

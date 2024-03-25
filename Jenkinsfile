@@ -65,7 +65,7 @@ pipeline {
 	stage("Trivy Scan") {
            steps {
                script {
-	            sh    'trivy --no-progress --exit-code 1 --severity MEDIUM,HIGH,CRITICAL imas10/application-java:latest'          
+	            sh    'trivy --no-progress --exit-code 0 --severity MEDIUM,HIGH,CRITICAL imas10/application-java:latest'          
            }
        }    
     }

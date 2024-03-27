@@ -5,7 +5,8 @@ pipeline {
         maven 'Maven3'
     }
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        APP_NAME = "register-app-pipeline"
+	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
 	RELEASE = "1.0.0"
 	IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
 	JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")    

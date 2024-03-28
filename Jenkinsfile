@@ -8,6 +8,9 @@ pipeline {
         APP_NAME = "register-app-pipeline"
 	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
 	RELEASE = "1.0.0"
+	DOCKER_USER = "imas10"
+        DOCKER_PASS = 'dockerhub'
+	IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
 	IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
 	JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")    
     }
@@ -59,13 +62,21 @@ pipeline {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }    
-        stage('Build & push Dockerfile') {
+        stage("Build & Push Docker Image") {
             steps {
-                sh """
-                ansible-playbook playbook.yml
-                """
+                script {
+                    docker.withRegistry('',DOCKER_PASS) {
+                        docker_image = docker.build "${IMAGE_NAME}"
+                    }
+
+                    docker.withRegistry('',DOCKER_PASS) {
+                        docker_image.push("${IMAGE_TAG}")
+                        docker_image.push('latest')
+                    }
+                }
             }
-        } 
+
+       }
 	stage("Trivy Scan") {
            steps {
                script {

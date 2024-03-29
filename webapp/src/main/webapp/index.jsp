@@ -34,9 +34,9 @@
    <h1> Thank You </h1>
    <br>
 <<<<<<< HEAD
-   <h1> Happy Learning.. </h1>
+   <h1>  AZERTY </h1>
 =======
    <h1> Happy Learning </h1>
->>>>>>> abd6265a54f6c97797d0fe13f34781d06697dfad
+
    
 </form>

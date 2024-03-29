@@ -11,7 +11,7 @@ pipeline {
 	DOCKER_USER = "imas10"
         DOCKER_PASS = 'dockerhub'
 	IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
-	IMAGE_TAG = "${RELEASE}"
+	IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
 	JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")    
     }
 	
@@ -77,13 +77,7 @@ pipeline {
             }
 
        }
-	stage("Trivy Scan") {
-           steps {
-               script {
-	            sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image imas10/application-java:latest --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table --timeout 15m')         
-           }
-       }    
-    }
+	
 	stage ('Cleanup Artifacts') {
            steps {
                script {

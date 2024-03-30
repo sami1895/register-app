@@ -95,14 +95,11 @@ pipeline {
        }
 
 	post {
-	    always {
-		 script {
-	              slackSend channel: "#test_notif_jenkins", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
-		 }
-	    }
-	
- 
-}
-	    
+        always {
+            script {
+                slackSend channel: "#test_notif_jenkins", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+            }
+        }
+    }
 }
       

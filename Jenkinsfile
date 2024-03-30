@@ -94,12 +94,6 @@ pipeline {
             }
        }
 
-       	 post {
-        always {
-            script {
-                slackSend(channel: '#test_notif_jenkins', message: "Pipeline execution completed for ${env.JOB_NAME} - ${env.BUILD_NUMBER}")
-            }
-        }
     }
 }
       

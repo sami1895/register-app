@@ -93,6 +93,19 @@ pipeline {
                 }
             }
        }
+      post {
+    always {
+        script {
+            slackSend(
+                channel: '#test_notif_jenkins', 
+                color: 'good', // Setting color to 'good' for green
+                message: 'Started build', 
+                teamDomain: 'Zapitou', 
+                tokenCredentialId: 'slack'
+            )
+        }
+    }
+}
 
     }
 }

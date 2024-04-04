@@ -101,7 +101,7 @@ pipeline {
             }
        }
        post {
-        always {
+        
             echo 'Slack Notifications'
             slackSend (
                 channel: '#jenkins',
@@ -110,8 +110,7 @@ pipeline {
             )
         }
     }
-    }
-}
+    
 
     }
 }

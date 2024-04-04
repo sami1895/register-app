@@ -68,7 +68,7 @@ pipeline {
             steps {
                 script {
                     // Run Ansible playbook
-                    sh "ansible-playbook playbook.yml"
+                    sh "ansible-playbook -e IMAGE_NAME=${env.IMAGE_NAME} -e IMAGE_TAG=${env.IMAGE_TAG} -e DOCKER_PASS=${env.DOCKER_PASS} playbook.yml"
                 }
             }
         }

@@ -101,10 +101,7 @@ pipeline {
                     slackSend channel: '#jenkins', color: 'good ', 
 			      message: "Successful completion of ${env.JOB_NAME}", 
 			      tokenCredentialId: 'slack'
-                
-            }
-       }
-    
+           
 
     }
 }

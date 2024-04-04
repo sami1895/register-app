@@ -1,1 +1,20 @@
+---
+- name: Jenkins Docker Pipeline
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+- name: Build Docker Image
+      docker_image:
+        name: "{{ IMAGE_NAME }}"
+        build:
+          path: /chemin/vers/votre/application
+          tag: "{{ IMAGE_TAG }}"
+      register: docker_build_output
+
+    - name: Push Docker Image
+      docker_push:
+        name: "{{ IMAGE_NAME }}"
+        tag: "{{ IMAGE_TAG }}"
+      when: docker_build_output.changed
 

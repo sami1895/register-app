@@ -64,14 +64,21 @@ pipeline {
             }
         }    
 
-        stage('Build & Push Docker Image') {
+        stage("Build & Push Docker Image") {
             steps {
                 script {
-                    // Run Ansible playbook
-                    sh "ansible-playbook -e IMAGE_NAME=${env.IMAGE_NAME} -e IMAGE_TAG=${env.IMAGE_TAG} -e DOCKER_PASS=${env.DOCKER_PASS} playbook.yml"
+                    docker.withRegistry('',DOCKER_PASS) {
+                        docker_image = docker.build "${IMAGE_NAME}"
+                    }
+
+                    docker.withRegistry('',DOCKER_PASS) {
+                        docker_image.push("${IMAGE_TAG}")
+                        docker_image.push('latest')
+                    }
                 }
             }
-        }
+
+       }
 
 
 

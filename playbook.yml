@@ -6,7 +6,7 @@
       docker_image:
         name: "{{ IMAGE_NAME }}"
         tag: "{{ IMAGE_TAG }}"
-        path: register-app/Dockerfile
+        path: /Dockerfile
 
     - name: Push Docker image
       docker_image:

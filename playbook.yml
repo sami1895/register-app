@@ -4,7 +4,7 @@
   connection: local
   tasks:
     - name: build docker image using the Dockerfile
-      command: docker build . -t "{{ IMAGE_NAME }}"
+      command: docker build . -t "${ IMAGE_NAME }"
 
     - name: Log in to Docker Hub
       docker_login:

@@ -96,11 +96,10 @@ pipeline {
                 }
             }
        }
-       stage("Trigger CD Pipeline") {
+       stage("slack") {
             steps {
-                script {
                     slackSend channel: '#jenkins', message: "Successful completion of ${env.JOB_NAME}", tokenCredentialId: 'slack'
-                }
+                
             }
        }
     

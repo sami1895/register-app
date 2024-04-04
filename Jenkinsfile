@@ -63,7 +63,7 @@ pipeline {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }    
-        stages {
+
         stage('Build & Push Docker Image') {
             steps {
                 script {
@@ -72,7 +72,7 @@ pipeline {
                 }
             }
         }
-    }
+
 
 
       stage ('Cleanup Artifacts') {

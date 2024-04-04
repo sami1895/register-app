@@ -98,7 +98,8 @@ pipeline {
        }
        stage("slack") {
             steps {
-                    slackSend channel: '#jenkins', color: 'good ', 
+                    slackSend channel: '#jenkins', 
+			      color: 'green', 
 			      message: "Successful completion of ${env.JOB_NAME}", 
 			      tokenCredentialId: 'slack'
 	    }

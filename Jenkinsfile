@@ -97,9 +97,6 @@ pipeline {
             }
        }
        stage("slack") {
-            steps {
-                   stage("slack") {
-       steps {
             slackSend channel: '#jenkins',
                   color: 'good',
                   failOnError: true,

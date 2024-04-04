@@ -1,18 +1,20 @@
-- name: "Build Image and run container with ansible playbook"
+---
+- name: Jenkins Docker Pipeline
   hosts: localhost
-  tasks:
-  - name: remove used image
-    # Make sure to change the image name with your personal dockerhub account and reposiroty   
-    command: docker rmi img-java
-    ignore_errors: yes
+  gather_facts: no
 
-  - name: build docker image from dockerfile
-    # Make sure to change the image name with your personal dockerhub account and reposiroty 
-    command: docker build -t img-java .
-  
-  - name: tag the docker image
-    command: docker tag img-java imas10/application-java:latest
-  
-  - name: push image to dockerhub
-    # Make sure to change the image name with your personal dockerhub account and reposiroty 
-    command: docker push imas10/application-java:latest
+  tasks:
+- name: Build Docker Image
+      docker_image:
+        name: "{{ IMAGE_NAME }}"
+        build:
+          path: /chemin/vers/votre/application
+          tag: "{{ IMAGE_TAG }}"
+      register: docker_build_output
+
+    - name: Push Docker Image
+      docker_push:
+        name: "{{ IMAGE_NAME }}"
+        tag: "{{ IMAGE_TAG }}"
+      when: docker_build_output.changed
+

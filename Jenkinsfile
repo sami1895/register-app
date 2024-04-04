@@ -62,30 +62,15 @@ pipeline {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }    
-        stage("Build & Push Docker Image") {
+        stage("Build & Push Docker Image & Cleanup Artifacts") {
             steps {
-                script {
-                    docker.withRegistry('',DOCKER_PASS) {
-                        docker_image = docker.build "${IMAGE_NAME}"
-                    }
-
-                    docker.withRegistry('',DOCKER_PASS) {
-                        docker_image.push("${IMAGE_TAG}")
-                        docker_image.push('latest')
-                    }
-                }
-            }
-
+              script {
+                sh '''
+                ansible-playbook playbook.yml -e "IMAGE_NAME=${IMAGE_NAME}" -e "IMAGE_TAG=${IMAGE_TAG}" -e "DOCKER_PASS=${DOCKER_PASS}"
+                '''
+           }
        }
-
-stage ('Cleanup Artifacts') {
-           steps {
-               script {
-                    sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
-                    sh "docker rmi ${IMAGE_NAME}:latest"
-               }
-          }
-       }    
+    }
 					  
        stage("Trigger CD Pipeline") {
             steps {

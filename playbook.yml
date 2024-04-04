@@ -1,7 +1,7 @@
 ---
 - name: Build, Push, and Cleanup Docker Image
   hosts: localhost
-  gather_facts: no
+  connection: local
   tasks:
     - name: Build Docker Image
       community.general.docker_image:

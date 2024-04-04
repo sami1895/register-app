@@ -1,8 +1,4 @@
-def COLOR_MAP = [
-    'FAILURE' : 'danger',
-    'SUCCESS' : 'good'	
-	
-]
+
 pipeline {
     agent any
     tools {
@@ -100,16 +96,13 @@ pipeline {
                 }
             }
        }
-       post {
-        
-            echo 'Slack Notifications'
-            slackSend (
-                channel: '#jenkins',
-                color: COLOR_MAP[currentBuild.currentResult],
-                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} \n build ${env.BUILD_NUMBER} \n more info at: ${env.BUILD_URL}"
-            )
-        }
-    }
+       stage("Trigger CD Pipeline") {
+            steps {
+                script {
+                    slackSend channel: '#jenkins', message: "Successful completion of ${env.JOB_NAME}", tokenCredentialId: 'slack'
+                }
+            }
+       }
     
 
     }

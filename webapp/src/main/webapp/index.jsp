@@ -31,7 +31,7 @@
     <p>Already have an account? <a href="#">Sign in</a>.</p>
   </div>
 
-   <h1> 54666819 </h1>
+   <h1> Quickwin </h1>
    
 
    

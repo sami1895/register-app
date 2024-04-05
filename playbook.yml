@@ -7,7 +7,7 @@
       docker_image:
         name: "{{ IMAGE_NAME }}"
         path: ./
-        
+        source: local
     - name: Push Docker Image with {{ IMAGE_TAG }}
       docker_image:
         name: "{{ IMAGE_NAME }}"

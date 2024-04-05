@@ -1,6 +1,7 @@
 ---
 - name: Build and Push Docker Image
   hosts: localhost
+  connection: local
   tasks:
     - name: Build Docker Image
       docker_image:

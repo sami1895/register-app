@@ -1,13 +1,11 @@
----
 - name: Build and Push Docker Image
   hosts: localhost
-  connection: local
   tasks:
     - name: Build Docker Image
       docker_image:
         name: "{{ IMAGE_NAME }}"
-        path: register-app/Dockerfile
-        source: local
+        path: /chemin/vers/votre/dockerfile_directory
+
     - name: Push Docker Image with {{ IMAGE_TAG }}
       docker_image:
         name: "{{ IMAGE_NAME }}"

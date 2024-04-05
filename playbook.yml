@@ -1,15 +1,21 @@
 ---
+---
 - name: Build and Push Docker Image
   hosts: localhost
   connection: local
   tasks:
-    
     - name: Build Docker Image
-      command: docker build -t "{{ IMAGE_NAME }}" .
+      ansible.builtin.docker_image:
+        name: "{{ IMAGE_NAME }}"
+        path: .
     
     - name: Push Docker Image with {{ IMAGE_TAG }}
-      command: docker push "{{ IMAGE_NAME }}" "{{ IMAGE_TAG }}"
-
+      ansible.builtin.docker_image:
+        name: "{{ IMAGE_NAME }}"
+        tag: "{{ IMAGE_TAG }}"
+        source: local
+   
+    
     - name: Push Docker Image with latest tag
       docker_image:
         name: "{{ IMAGE_NAME }}"

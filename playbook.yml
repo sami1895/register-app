@@ -5,9 +5,7 @@
   connection: local
   tasks:
     - name: Build Docker Image
-      ansible.builtin.docker_image:
-        name: "{{ IMAGE_NAME }}"
-        path: .
+      command: docker build -t "{{ IMAGE_NAME }}".
     
     - name: Push Docker Image with {{ IMAGE_TAG }}
       ansible.builtin.docker_image:

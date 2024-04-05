@@ -1,10 +1,11 @@
+---
 - name: Build and Push Docker Image
   hosts: localhost
   tasks:
     - name: Build Docker Image
       docker_image:
         name: "{{ IMAGE_NAME }}"
-        path: /Dockerfile
+        path: /path/to/dockerfile_directory
 
     - name: Push Docker Image with {{ IMAGE_TAG }}
       docker_image:

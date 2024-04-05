@@ -65,13 +65,15 @@ pipeline {
         }    
 
         stage("Build & Push Docker Image") {
-             steps {
-                 script {
-                      sh "ansible-playbook playbook.yml --extra-vars 'IMAGE_NAME=my_image_name IMAGE_TAG=my_image_tag'"
-                
-               }
-             }
-           }
+    steps {
+        script {
+            def dockerImage = docker.build("${IMAGE_NAME}")
+            dockerImage.push("${IMAGE_TAG}")
+            dockerImage.push('latest')
+        }
+    }
+}
+
 
       stage ('Cleanup Artifacts') {
            steps {

@@ -1,1 +1,21 @@
+---
+- name: Build and Push Docker Image
+  hosts: localhost
+  tasks:
+    - name: Build Docker Image
+      docker_image:
+        name: "{{ IMAGE_NAME }}"
+        path: ./
+
+    - name: Push Docker Image with {{ IMAGE_TAG }}
+      docker_image:
+        name: "{{ IMAGE_NAME }}"
+        tag: "{{ IMAGE_TAG }}"
+        source: local
+
+    - name: Push Docker Image with latest tag
+      docker_image:
+        name: "{{ IMAGE_NAME }}"
+        tag: latest
+        source: local
 

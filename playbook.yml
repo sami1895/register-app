@@ -6,10 +6,9 @@
       command: docker build -t "{{ IMAGE_NAME }}" .
     
     - name: Push Docker Image with {{ IMAGE_TAG }}
-      ansible.builtin.docker_image:
-        name: "{{ IMAGE_NAME }}"
-        tag: "{{ IMAGE_TAG }}"
-        source: local
+      command: docker push "{{ IMAGE_NAME }}":"{{ IMAGE_TAG }}"
+   
+     
    
     
     - name: Push Docker Image with latest tag

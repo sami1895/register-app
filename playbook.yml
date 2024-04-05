@@ -4,7 +4,7 @@
     - name: Build Docker Image
       docker_image:
         name: "{{ IMAGE_NAME }}"
-        path: /chemin/vers/votre/dockerfile_directory
+        path: /Dockerfile
 
     - name: Push Docker Image with {{ IMAGE_TAG }}
       docker_image:

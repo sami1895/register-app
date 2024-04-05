@@ -67,9 +67,8 @@ pipeline {
         stage("Build & Push Docker Image") {
              steps {
                  script {
-                      def dockerImage = docker.build("${IMAGE_NAME}")
-                      dockerImage.push("${IMAGE_TAG}")
-                      dockerImage.push('latest')
+                      sh "ansible-playbook playbook.yml"
+                
                }
              }
            }

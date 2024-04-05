@@ -3,22 +3,12 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Install Docker SDK for Python
-      pip:
-        name: "docker<5" 
-
-    - name: Setup more docker dependencies
-      pip:
-        name: "websocket-client<1" 
     
     - name: Build Docker Image
       command: docker build -t "{{ IMAGE_NAME }}" .
     
     - name: Push Docker Image with {{ IMAGE_TAG }}
-      docker_image:
-        name: "{{ IMAGE_NAME }}"
-        tag: "{{ IMAGE_TAG }}"
-        source: local
+      command: docker push "{{ IMAGE_NAME }}" "{{ IMAGE_TAG }}"
 
     - name: Push Docker Image with latest tag
       docker_image:

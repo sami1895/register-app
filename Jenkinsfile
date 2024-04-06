@@ -68,7 +68,7 @@ pipeline {
     steps {
         script {
             sh "ansible-playbook playbook.yml --extra-vars 'IMAGE_NAME=application-java IMAGE_TAG=${IMAGE_TAG}'"
-        }
+
 
         }
     }

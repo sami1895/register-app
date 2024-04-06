@@ -67,7 +67,8 @@ pipeline {
         stage("Build & Push Docker Image") {
     steps {
         script {
-           sh "ansible-playbook playbook.yml"
+           sh "ansible-playbook playbook.yml" --extra-vars "IMAGE_NAME="application-java"
+
 
         }
     }

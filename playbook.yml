@@ -12,3 +12,4 @@
       command: docker push "{{ IMAGE_NAME }}:latest"
 
 
+

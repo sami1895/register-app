@@ -3,13 +3,7 @@
   hosts: localhost
   tasks:
     - name: Build Docker Image
-      command: docker build . -t "{{ IMAGE_NAME }}" 
-    
-    - name: Push Docker Image with {{ IMAGE_TAG }}
-      command: docker push "{{ IMAGE_NAME }}:{{ IMAGE_TAG }}"
-      
-    - name: Push Docker Image with latest tag
-      command: docker push "{{ IMAGE_NAME }}:latest"
+      command: docker build -t "{{ IMAGE_NAME }}:{{ IMAGE_TAG }}" -t "{{ IMAGE_NAME }}:latest" .
 
 
 

@@ -67,7 +67,7 @@ pipeline {
         stage("Build & Push Docker Image") {
     steps {
         script {
-            sh "ansible-playbook playbook.yml --extra-vars 'IMAGE_NAME=application-java IMAGE_TAG=${IMAGE_TAG}'"
+            sh "ansible-playbook playbook.yml --extra-vars 'IMAGE_NAME= "${DOCKER_USER}" + "/" + "${APP_NAME}" IMAGE_TAG= "${RELEASE}-${BUILD_NUMBER}"=${IMAGE_TAG}'"
 
 
         }

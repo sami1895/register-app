@@ -22,7 +22,84 @@ pipeline {
                 cleanWs()
                 }
         }
+     stage("Checkout from SCM"){
+                steps {
+                    git branch: 'main', credentialsId: 'github', url: 'https://github.com/sami1895/register-app.git'
+                }
+        }
 
+      stage("Build Application"){
+            steps {
+                sh "mvn clean package"
+            }
+
+       }
+
+       stage("Test Application"){
+           steps {
+                 sh "mvn test"
+           }
+       }  
+       stage("SonarQube Analysis"){
+           steps {
+	       script {
+		    withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token') { 
+                    sh "mvn sonar:sonar"
+		    }
+	       }	
+           }
+       }
+       stage("Quality Gate"){
+           steps {
+               script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube-token'
+                }	
+            }
+
+       }
+       stage('Docker Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }    
+
+        stage("Build & Push Docker Image") {
+              steps {
+                  script {
+                     def dockerImage = docker.build("${IMAGE_NAME}")
+                     dockerImage.push("${IMAGE_TAG}")
+                     dockerImage.push('latest')
+                }
+            }
+           }
+
+
+      stage ('Cleanup Artifacts') {
+           steps {
+               script {
+                    sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker rmi ${IMAGE_NAME}:latest"
+               }
+          }
+       }    
+					  
+       stage("Trigger CD Pipeline") {
+            steps {
+                script {
+                    sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://192.168.50.10:8080//job/gitops-register-app/buildWithParameters?token=gitops-token'"
+                }
+            }
+       }
+       stage("slack") {
+           steps {
+	          slackSend channel: '#jenkins',
+                  color: 'good',
+                  failOnError: true,
+                  message: "Successful completion of ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)",
+                  tokenCredentialId: 'slack'
+
+	    }
+        }    
         
 
     }

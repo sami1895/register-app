@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
     tools {
@@ -62,21 +63,16 @@ pipeline {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }    
-        stage("Build & Push Docker Image") {
-            steps {
-                script {
-                    docker.withRegistry('',DOCKER_PASS) {
-                        docker_image = docker.build "${IMAGE_NAME}"
-                    }
 
-                    docker.withRegistry('',DOCKER_PASS) {
-                        docker_image.push("${IMAGE_TAG}")
-                        docker_image.push('latest')
-                    }
+        stage("Build & Push Docker Image") {
+              steps {
+                  script {
+                     def dockerImage = docker.build("${IMAGE_NAME}")
+                     dockerImage.push("${IMAGE_TAG}")
+                     dockerImage.push('latest')
                 }
             }
-
-       }
+           }
 
 
       stage ('Cleanup Artifacts') {
@@ -95,7 +91,17 @@ pipeline {
                 }
             }
        }
-      
+       stage("slack") {
+           steps {
+	          slackSend channel: '#jenkins',
+                  color: 'good',
+                  failOnError: true,
+                  message: "Successful completion of ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)",
+                  tokenCredentialId: 'slack'
+
+	    }
+        }    
+
     }
 }
       

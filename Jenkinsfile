@@ -92,7 +92,7 @@ pipeline {
        }
        stage("slack") {
            steps {
-	          slackSend channel: '#slackboarder',
+	          slackSend channel: '#jenkins-boarder',
                   color: 'good',
                   failOnError: true,
                   message: "Successful completion of ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)",

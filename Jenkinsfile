@@ -57,6 +57,16 @@ pipeline {
             }
 
        }
+
+	  stages {
+        stage('Deploy To Nexus') {
+            steps {
+                withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+                    sh 'mvn deploy -DskipTests=true'
+                }
+            }
+        }
+    }   
        stage('Docker Login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
